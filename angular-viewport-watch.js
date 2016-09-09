@@ -64,10 +64,12 @@
                 function enableDigest() {
                     toggleWatchers(scope, true);
                 }
-                if (!elementWatcher.isInViewport) {
-                    scope.$evalAsync(disableDigest);
-                    debouncedViewportUpdate();
-                }
+                scope.$applyAsync(function() {
+                    if (!elementWatcher.isInViewport) {
+                        disableDigest();
+                        debouncedViewportUpdate();
+                    }
+                });
                 elementWatcher.enterViewport(enableDigest);
                 elementWatcher.exitViewport(disableDigest);
                 scope.$on("toggleWatchers", function(event, enable) {

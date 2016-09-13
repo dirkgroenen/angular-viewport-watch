@@ -9,9 +9,8 @@
                 scrollMonitor.update();
             }, 10);
         }
-        return {
-            restrict: "AE",
-            link: function(scope, element, attr) {
+
+        var link = function(scope, element, attr) {
                 if($parse(attr.viewportWatch)(scope) == false){
                     return false;
                 }
@@ -79,7 +78,11 @@
                     elementWatcher.destroy();
                     debouncedViewportUpdate();
                 });
-            }
+            };
+
+        return {
+            restrict: "AE",
+            link: link
         };
     }
     viewportWatch.$inject = [ "scrollMonitor", "$timeout", "$parse" ];

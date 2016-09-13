@@ -15,6 +15,16 @@
                     return false;
                 }
 
+                if (attr.hashkey !== element.attr('hashkey')) {
+                    var unwatch = scope.$watch(function() {
+                        return element.attr('hashkey');
+                    }, function() {
+                        unwatch && unwatch();
+                        link.call(this, scope, element, attr);
+                    });
+                    return true;
+                }
+
                 var container = (attr.viewportWatchContainer && attr.viewportWatchContainer.length > 1) ? attr.viewportWatchContainer : undefined;
 
                 var elementWatcher = scrollMonitor.create(element, scope.$eval(attr.viewportWatch || "0"), container);

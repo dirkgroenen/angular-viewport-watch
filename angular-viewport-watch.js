@@ -73,12 +73,14 @@
                 function enableDigest() {
                     toggleWatchers(scope, true);
                 }
-                scope.$applyAsync(function() {
+                function disableDigestingIfOutsideViewport() {
                     if (!elementWatcher.isInViewport) {
                         disableDigest();
                         debouncedViewportUpdate();
                     }
-                });
+                }
+                scope.$applyAsync(disableDigestingIfOutsideViewport);
+
                 elementWatcher.enterViewport(enableDigest);
                 elementWatcher.exitViewport(disableDigest);
                 scope.$on("toggleWatchers", function(event, enable) {

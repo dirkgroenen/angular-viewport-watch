@@ -27,10 +27,10 @@
             }
 
             if (attr.hashkey !== element.attr('hashkey')) {
-                var unwatch = scope.$watch(function() {
+                var unwatchFunction = scope.$watch(function() {
                     return element.attr('hashkey');
                 }, function() {
-                    unwatch && unwatch();
+                    unwatchFunction && unwatchFunction();
                     link.call(this, scope, element, attr);
                 });
                 return true;

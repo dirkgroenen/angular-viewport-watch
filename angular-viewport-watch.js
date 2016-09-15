@@ -10,15 +10,12 @@
             }, 10);
         }
 
-        function createDebouncing(theThis, func, delay) {
+        function createDebouncingVersion(func, delay) {
             var debounceTimeout;
-            var debounced = function () {
+            return function () {
                 clearTimeout(debounceTimeout);
-                debounceTimeout = setTimeout(function () {
-                    func.call(theThis);
-                }, delay);
+                debounceTimeout = setTimeout(func, delay);
             };
-            return debounced;
         }
 
         var link = function(scope, element, attr) {
@@ -78,7 +75,7 @@
                     scope.$digest();
 
                     if (!$rootScope.debouncingApplyAsync) {
-                        $rootScope.debouncingApplyAsync = createDebouncing($rootScope, function () {
+                        $rootScope.debouncingApplyAsync = createDebouncingVersion(function () {
                             $rootScope.$applyAsync();
                         }, 10);
                     }

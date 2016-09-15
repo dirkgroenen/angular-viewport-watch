@@ -10,6 +10,17 @@
             }, 10);
         }
 
+        function createDebouncing(theThis, func, delay) {
+            var debounceTimeout;
+            var debounced = function () {
+                clearTimeout(debounceTimeout);
+                debounceTimeout = setTimeout(function () {
+                    func.call(theThis);
+                }, delay);
+            };
+            return debounced;
+        }
+
         var link = function(scope, element, attr) {
             if($parse(attr.viewportWatch)(scope) == false){
                 return false;
@@ -65,6 +76,13 @@
                 } while (next);
                 if (digest) {
                     scope.$digest();
+
+                    if (!$rootScope.debouncingApplyAsync) {
+                        $rootScope.debouncingApplyAsync = createDebouncing($rootScope, function () {
+                            $rootScope.$applyAsync();
+                        }, 10);
+                    }
+                    $rootScope.debouncingApplyAsync();
                 }
             }
             function disableDigest() {

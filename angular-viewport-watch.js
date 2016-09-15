@@ -1,7 +1,7 @@
 "use strict";
 
 (function() {
-    function viewportWatch(scrollMonitor, $timeout, $parse) {
+    function viewportWatch(scrollMonitor, $timeout, $parse, $rootScope) {
         var viewportUpdateTimeout;
         function debouncedViewportUpdate() {
             $timeout.cancel(viewportUpdateTimeout);
@@ -97,6 +97,6 @@
             link: link
         };
     }
-    viewportWatch.$inject = [ "scrollMonitor", "$timeout", "$parse" ];
+    viewportWatch.$inject = [ "scrollMonitor", "$timeout", "$parse", "$rootScope" ];
     angular.module("angularViewportWatch", []).directive("viewportWatch", viewportWatch).value("scrollMonitor", window.scrollMonitor);
 })();
